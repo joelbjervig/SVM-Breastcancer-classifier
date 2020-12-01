@@ -1,6 +1,6 @@
 T = readtable('wdbc.dat');
+%BorM = zeros(500,1);
 
-% Description of data
 % 	a) radius (mean of distances from center to points on the perimeter)
 % 	b) texture (standard deviation of gray-scale values)
 % 	c) perimeter
@@ -14,18 +14,7 @@ T = readtable('wdbc.dat');
 
 
 % 1. Define auxiliary matrices for general nonseperable
-BorM = zeros(500,1); % Benign or Malignent classifier. 4. use the first 500 datapoints
-
-% %data2array
-% A = table2array(T);
-xi = zeros(length(BorM),width(T)-2);
-A2 = table2cell(T);
-% for j=1:length(BorM)
-%     for k=1:width(xi)
-%         xi(j,k+2)= T(j,k+2);
-% 
-%     end
-% end
+BorM = zeros(500,1); % Benign or Malignent classifier
 
 
 for i=1:length(BorM)
@@ -38,4 +27,18 @@ for i=1:length(BorM)
         BorM(i)=-1;
     end
 end
+
+% %data2array
+% A = table2array(T);
+A1 = table2cell(T(1:500,3:32));
+% xi = zeros(500,30);
+% 
+% 
+% for f=1:30
+%     for h=1:500
+%         xi(h,f)=A1{h,f};
+%     end
+% end
+
+xi = cell2mat(A1);
 
