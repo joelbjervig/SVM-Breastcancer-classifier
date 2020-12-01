@@ -1,0 +1,5 @@
+
+c=4
+H = diag([zeros(1,1),ones(1, n), zeros(1, m)]);
+f = [zeros(1,n+1), c*ones(1, m)]
+A = 
