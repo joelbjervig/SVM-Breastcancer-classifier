@@ -1,6 +1,3 @@
-clear all;
-close all;
-clc
 T = readtable('wdbc.dat');
 
 % Description of data
@@ -21,11 +18,11 @@ m = height(T)-69;   % number of datapoints: 4. use the first 500 datapoints
 n = width(T)-2;     % number of features in the dataset
 
 BorM = zeros(m,1);  % biary classes: Benign or Malignent
-xi3 = zeros(m,n);    % define matric for all data (i.e. multidimentional cooridnates)
+xi = zeros(m,n);    % define matric for all data (i.e. multidimentional cooridnates)
+% %data2array
+% A = table2array(T);
 
-% data2array
-A = table2array(T);
-xi = A(:,3:end);
+A2 = table2cell(T);
 % for j=1:length(BorM)
 %     for k=1:width(xi)
 %         xi(j,k+2)= T(j,k+2);
@@ -33,7 +30,7 @@ xi = A(:,3:end);
 %     end
 % end
 
-% store binaries in class vector
+% store binari
 for i=1:length(BorM)
     
     
