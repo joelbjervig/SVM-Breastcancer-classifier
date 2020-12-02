@@ -21,7 +21,7 @@ m = height(T)-69;   % number of datapoints: 4. use the first 500 datapoints
 n = width(T)-2;     % number of features in the dataset
 
 BorM = zeros(height(T),1);  % biary classes: Benign or Malignent
-xi3 = zeros(m,n);    % define matric for all data (i.e. multidimentional cooridnates)
+xi3 = zeros(m,n);    % define matrix for all data (i.e. multidimentional cooridnates)
 
 % data2array
 A = table2cell(T);
@@ -35,34 +35,28 @@ xi = A(:,3:end);
 % end
 
 % store binaries in class vector
-for i=1:length(BorM)
-    
-    
+for i=1:length(BorM) 
     if T{i,2}=="M"
         BorM(i)=1;
-    
-    elseif T{i,2}=="B"
+    else % if its not malignent, its benign
         BorM(i)=-1;
     end
-   
 end
-y_train = BorM(1:500,:);
-X_train = xi(1:500,:);
-y_test = BorM(501:end,:);
-X_test = xi(501:end,:);
-c= 100;
-X_train = cell2mat(X_train);
-X_test = cell2mat(X_test);
 
+
+X_train = cell2mat(xi(1:500,:));     % datapoints trainingdata
+y_train = BorM(1:500,:);            % corresponding class for datapoints
+X_test = cell2mat(xi(501:end,:));   % testdata is the remaining 69 datapoints
+y_test = BorM(501:end,:);           % corresponding class for datapoints
+c = 100;
 
 %Quadratic programming matrices
-
 H = diag([zeros(1,1),ones(1, n), zeros(1, m)]);
 f = [zeros(1,n+1), c*ones(1, m)];
 A = [-y_train.*ones(m,1), -diag(y_train)*X_train, -eye(m)];
 b = -ones(m,1);
-lb = [-inf*ones(n+1,1); zeros(m,1)];
-ub = [inf*ones(n+1+m,1)];
+lb = [-inf*ones(n+1,1); zeros(m,1)];    % lower bound
+ub = [inf*ones(n+1+m,1)];               % upper bound
 
 %Finding variables with quadprog
 train_vars=quadprog(H,f,A,b,[],[],lb,ub);
