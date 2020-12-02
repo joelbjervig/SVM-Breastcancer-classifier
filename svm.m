@@ -94,9 +94,40 @@ for i=1:length(X_test)-1
     
 end
 
+
+
+TP = 0;
+TOT_p = 0;
+TN = 0;
+TOT_n = 0;
+
+for i=1:length(y_pred)-1
+    if y_test(i) == 1
+        TOT_p = TOT_p+1;
+        if y_pred(i) == 1
+            TP = TP + 1;
+        end
+    else
+        TOT_n = TOT_n+1;
+        if y_pred(i) == -1
+            TN = TN + 1;
+        end
+    end
+    
+end
+
+
+    
+
+
+sensitivity(c/100) = TP/TOT_p;
+specificity(c/100) = TN/TOT_n;
+
 accuracy(c/100) = sum(result)/length(result);
+
 
 end
 
+plot([100:100:1000], accuracy, [100:100:1000], sensitivity, [100:100:1000], specificity)
 
 
