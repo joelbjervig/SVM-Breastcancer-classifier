@@ -48,15 +48,26 @@ X_train = cell2mat(xi(1:500,:));     % datapoints trainingdata
 y_train = BorM(1:500,:);            % corresponding class for datapoints
 X_test = cell2mat(xi(501:end,:));   % testdata is the remaining 69 datapoints
 y_test = BorM(501:end,:);           % corresponding class for datapoints
-c = 100;
+%c=100;
 
-%Quadratic programming matrices
+accuracy = zeros(1,1000/100);
+
+
 H = diag([zeros(1,1),ones(1, n), zeros(1, m)]);
-f = [zeros(1,n+1), c*ones(1, m)];
 A = [-y_train.*ones(m,1), -diag(y_train)*X_train, -eye(m)];
-b = -ones(m,1);
 lb = [-inf*ones(n+1,1); zeros(m,1)];    % lower bound
 ub = [inf*ones(n+1+m,1)];               % upper bound
+
+for c=100:100:1000
+
+    
+    
+f = [zeros(1,n+1), c*ones(1, m)];
+b = -ones(m,1);
+
+
+%Quadratic programming matrices
+
 
 %Finding variables with quadprog
 train_vars=quadprog(H,f,A,b,[],[],lb,ub);
@@ -65,6 +76,7 @@ y_pred = zeros(69,1);
 result = y_pred;
 w = train_vars(2:31);
 b = train_vars(1);
+%epsilon = train_vars(32:531);
 
 for i=1:length(X_test)-1
     y_pred(i) = transpose(w)*transpose(X_test(i,:))+b;
@@ -82,7 +94,9 @@ for i=1:length(X_test)-1
     
 end
 
-accuracy = sum(result)/length(result)
+accuracy(c/100) = sum(result)/length(result);
+
+end
 
 
 
