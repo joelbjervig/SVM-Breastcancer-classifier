@@ -20,7 +20,7 @@ T = readtable('wdbc.dat');
 m = height(T)-69;   % number of datapoints: 4. use the first 500 datapoints
 n = width(T)-2;     % number of features in the dataset
 
-BorM = zeros(height(T),1);  % biary classes: Benign or Malignent
+BorM = zeros(height(T),1);  % binary classes: Benign or Malignent
 xi3 = zeros(m,n);    % define matrix for all data (i.e. multidimentional cooridnates)
 
 % data2array
@@ -44,13 +44,13 @@ for i=1:length(BorM)
 end
 
 
-X_train = cell2mat(xi(1:500,:));     % datapoints trainingdata
+X_train = cell2mat(xi(1:500,:));    % datapoints trainingdata
 y_train = BorM(1:500,:);            % corresponding class for datapoints
 X_test = cell2mat(xi(501:end,:));   % testdata is the remaining 69 datapoints
 y_test = BorM(501:end,:);           % corresponding class for datapoints
 %c=100;
-
 accuracy = zeros(1,1000/100);
+
 
 
 H = diag([zeros(1,1),ones(1, n), zeros(1, m)]);
@@ -59,15 +59,11 @@ lb = [-inf*ones(n+1,1); zeros(m,1)];    % lower bound
 ub = [inf*ones(n+1+m,1)];               % upper bound
 
 for c=100:100:1000
-
-    
-    
+ 
 f = [zeros(1,n+1), c*ones(1, m)];
 b = -ones(m,1);
 
-
 %Quadratic programming matrices
-
 
 %Finding variables with quadprog
 train_vars=quadprog(H,f,A,b,[],[],lb,ub);
